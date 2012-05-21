@@ -1,0 +1,121 @@
+<html>
+	<head>
+		<title>NPR API Plugin for JQuery </title>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+		<script type="text/javascript" src="jquery.npr.js"></script>
+		
+		<script type="text/javascript">
+		
+		   // function to get a named parameter from the url
+			getUrlParameter = function( pname, pdefault ) {
+			    try {    
+			        // From this page:  http://www.netlobo.com/url_query_string_javascript.html
+			        pname = pname.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+			        var regexS = "[\\?&]"+pname+"=([^&#]*)";
+			        var regex = new RegExp( regexS );
+			        var results = regex.exec( window.location.href );
+			        if( results === null ) {
+			            return pdefault;
+			        }
+			        else {
+			            return results[1];
+			        }
+			    } catch (e) {
+			        alert(e);
+			    }
+			};
+		
+			$(document).ready(function() {
+				
+				var apiKeyFromUrl = getUrlParameter('apiKey', null);
+				
+				$('.nprtopic').npr({apiKey :  apiKeyFromUrl, 
+					cloneToFit : true, 
+					callback : function(topicId) {
+						$('.nprstory:first').siblings('.nprstory').remove();
+						
+						$('.nprstory').npr({apiKey :  apiKeyFromUrl, 
+							 cloneToFit : true, 
+							 content : 'title',
+							 onload : function() {
+									$('#nprtopiclist').slideUp();
+									$('#nprlist').slideDown();
+							 }, 
+							 callback : function(storyId) {
+								$('#summary').npr({apiKey :  apiKeyFromUrl, content : 'summary'}).loadStory(
+										{
+											nprId : storyId,
+											onload : function () {
+												$('#nprlist').slideUp();
+												$('#nprsummary').slideDown();
+											},
+											callback : function(storyId) {
+												$('#fullStory').npr({apiKey :  apiKeyFromUrl, content : 'full'}).loadStory(
+													{
+														nprId : storyId,
+														onload : function () {
+															$('#nprsummary').slideUp();
+															$('#nprfullstory').slideDown();
+														}
+													});
+											}
+										}
+								);
+								
+						 	}
+						 }).loadStory({nprId : topicId});
+						
+						
+					}}).loadNewsTopics();  
+				
+				 
+				 
+				 $('#listBack').click(function(e) {
+						e.preventDefault();
+						$('#nprlist').slideUp();
+						$('#nprtopiclist').slideDown();
+					});
+				 
+				 $('#summaryBack').click(function(e) {
+						e.preventDefault();
+						$('#nprsummary').slideUp();
+						$('#nprlist').slideDown();
+					});
+				 
+				 $('#fullBack').click(function(e) {
+						e.preventDefault();
+						$('#nprfullstory').slideUp();
+						$('#nprsummary').slideDown();
+					});				 
+			});
+		</script>
+	</head>
+
+
+	<div id="nprtopiclist">
+		<div class="nprtopic" style="width:624px;"></div>
+	</div>
+	
+	<div id="nprlist" style="display:none;">
+		<p>
+			<a href="#" id="listBack">&lt;&lt; back</a>
+		</p>
+		<div class="nprstory" style="width:624px;"></div>
+	</div>
+	
+	<div id="nprsummary" style="display:none;">
+		<p>
+			<a href="#" id="summaryBack">&lt;&lt; back</a>
+		</p>
+		<div id="summary"></div>
+		
+	</div>
+	
+	<div id="nprfullstory" style="display:none;">
+		<p>
+			<a href="#" id="fullBack">&lt;&lt; back</a>
+		</p>
+		<div id="fullStory"></div>
+		
+	</div>	
+</html>

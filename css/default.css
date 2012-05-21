@@ -1,0 +1,69 @@
+.nprStoryShort 
+{
+	display:block;
+	color:#333;
+	font-family:arial, sans-serif;
+	font-size:16px;
+	margin:0px;
+	padding-bottom:15px;
+	padding-top:15px;
+	width:624px;
+}
+
+.nprStorySlug
+{
+	font-size:12px;
+	text-transform:lowercase;
+	color:#999;
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.nprStoryTitle
+{
+	color:#36C;
+	font-family:georgia, sans-serif;
+	font-size:14px;
+	font-weight:bold;
+	text-decoration:underline;
+	margin-top: 5px;
+}
+
+.nprStoryThumbnailWrap
+{
+	width: 138px;
+	display: block;
+	float: left;
+	margin-bottom: 10px;
+}
+
+.nprStoryThumbnail
+{
+	border: none;
+	float: left;
+	margin: 0px;
+}
+
+.nprStoryImg138 .nprStoryContent
+{
+	margin-left: 148px;
+}
+
+.nprStoryContent
+{
+	color: #555;
+	font-family: arial, sans-serif;
+	font-size: 13px;
+	line-height: 16px;
+	margin-bottom: 6px;
+	padding: 0px;
+	width: 476px;	
+}
+
+.nprStoryDate
+{
+	color: #999;
+	display: inline;
+	font-size: 12px;
+	line-height:16px;
+}
